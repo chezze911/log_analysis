@@ -47,11 +47,11 @@
   
 If you cannot use the psql line in vagrant: 
 (You can solve this by using the following commands one by one once you are logged in.)
-$ export LANGUAGE=en_US.UTF-8
-$ export LANG=en_US.UTF-8
-$ export LC_ALL=en_US.UTF-8
-$ sudo locale-gen en_US.UTF-8
-$ sudo dpkg-reconfigure locales
+  * $ export LANGUAGE=en_US.UTF-8
+  * $ export LANG=en_US.UTF-8
+  * $ export LC_ALL=en_US.UTF-8
+  * $ sudo locale-gen en_US.UTF-8
+  * $ sudo dpkg-reconfigure locales
 
 #### Running the queries:
   1. From the vagrant directory inside the virtual machine,run log_analysis.py using:
