@@ -7,6 +7,7 @@ import psycopg2
 # Store global database name
 DB_NAME = 'news'
 
+
 def execute_query(query):
     try:
         db = psycopg2.connect('dbname=' + DB_NAME)
@@ -19,29 +20,36 @@ def execute_query(query):
         print "Unable to connect to the database.  Please try again."
         
         
-        
+def print_query_results(query_results):
+    print query_results['title']
+    for result in query_results['results']:
+        print ('\t' + str(result[0]) + ' ---- ' + str(result[1]) + ' views')
 
 # Problem 1: What are the most popular three articles of all time?
-def top_three_articles():
-	query = """SELECT title, COUNT(*) AS views 
-    			FROM articles, log 
-    			WHERE log.path LIKE concat('%', articles.slug, '%') 
-    			GROUP BY articles.title ORDER BY views DESC LIMIT 3;"""
+query_1 = "SELECT title,views FROM article_view LIMIT 3"
     
-    top_three_articles_query = execute_query(query)
+query_1_results = dict()
+
+query_1_results['title'] = "\n 1. Top Three Articles By Views \n"
     
-    print "Top Three Articles By Views"
-    for i in top_three_articles_query:
-        print " "'" + i[0] + '' ---> ' + str(i[1]) + " views"
     
 
 # Problem 2: Who are the most popular article authors of all time?
-def most_popular_authors():
-	query = ""
+query_2 = ""
+query_2_results = dict()
+query_2_results['title'] = "Most Popular Article Authors By Views"
 
 # Problem 3: On which days did more than 1% of requests lead to errors?
-def high_error_days():
-	query = ""
+query_3 = ""
+query_3_results = dict()
+query_3_results['title'] = "High Error days with more than 1 percent error"
+
+
+# Store query results and print output
+query_1_results['results'] = execute_query(query_1)
+
+#print output
+print_query_results(query_1_results)
 
 
 
