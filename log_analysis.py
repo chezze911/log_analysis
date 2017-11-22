@@ -18,6 +18,9 @@ def execute_query(query):
         return results
     except BaseException:
         print("Unable to connect to the database.  Please try again.")
+    
+    except TypeError:
+        print('Type error too!')
 
     
 # Problem 1: What are the most popular three articles of all time?
@@ -30,7 +33,7 @@ def top_three_articles():
 
     print("\n 1. Top Three Articles: \n")
     for result in top_three_query:
-        print('\t' + str(result[0]) + ' ---- ' + str(result[1]) + ' views')
+        print('\t' + str(result[0]) + ' ----- ' + str(result[1]) + ' views')
 
 
     
@@ -47,24 +50,32 @@ def most_popular_authors():
 
     print("\n 2. Most Popular Article Authors: \n")
     for result in most_popular_authors_query:
-        print('\t' + str(result[0]) + ' ---- ' + str(result[1]) + ' views')
+        print('\t' + str(result[0]) + ' ----- ' + str(result[1]) + ' views')
 
 
 
 
 # Problem 3: On which days did more than 1% of requests lead to errors?
 def over_one_percent_error_days():
-    query_3 = """SELECT * 
-                 FROM error_rate 
-                 WHERE error_rate.percentage > 1 
-                 ORDER BY error_rate.percentage DESC;"""
+    query_3 = """SELECT errors.days,
+                 ROUND(((errors.errors/total.total) * 100) :: DECIMAL, 2)::TEXT
+                 as percentage
+                 FROM errors, total
+                 WHERE total.day = error.day
+                 AND (((errors.errors/total.total) * 100) > 1.0)
+                 ORDER BY errors.day DESC;"""
     
     over_one_percent_error_days_query = execute_query(query_3)
     
     print("\n 3. High Error days with more than 1 percent error: \n")
     
-    for result in over_one_percent_error_days_query:
-        print('\t' + str(result[0]) + ' ---- ' + str(result[1]) + ' % errors'.formate(date, percentage))
+    if over_one_percent_error_days_query is None:
+        print ( '\t' + 'No values in over_one_percent_error_days_query. Fix query')
+
+    else:
+        for result in over_one_percent_error_days_query:
+            print('\t' + str(result[0].strftime('%B %d, %Y')) + ' ----- ' + str(result[1]) + '%' + ' errors')
+
 
 
 
