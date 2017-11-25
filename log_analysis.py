@@ -53,17 +53,38 @@ def most_popular_authors():
         print('\t' + str(result[0]) + ' ----- ' + str(result[1]) + ' views')
 
 
+# request_total view
+# CREATE VIEW request_total AS
+# SELECT count(*) AS COUNT,
+#        date(TIME) AS date
+# FROM log
+# GROUP BY date
+# ORDER BY COUNT DESC;
+
+# request_error view
+# CREATE VIEW request_error AS
+# SELECT count(*) AS COUNT,
+#        date(TIME) AS date
+# FROM log
+# WHERE status!='200 OK'
+# GROUP BY date
+# ORDER BY COUNT DESC;
+
+# percent_error view
+
+# CREATE VIEW percent_error AS
+# SELECT request_total.date,
+#        round((100.0*request_error.count)/request_total.count,2) AS percent_error
+# FROM request_error,
+#      request_total
+# WHERE request_error.date=request_total.date;
 
 
 # Problem 3: On which days did more than 1% of requests lead to errors?
 def over_one_percent_error_days():
-    query_3 = """SELECT errors.days,
-                 ROUND(((errors.errors/total.total) * 100))
-                 as percentage
-                 FROM errors, total
-                 WHERE total.day = errors.day
-                 AND (((errors.errors/total.total) * 100) > 1.0)
-                 ORDER BY errors.day DESC;"""
+    query_3 = """SELECT to_char(date,'Mon DD,YYYY') AS date,percent_error
+    FROM percent_error
+    WHERE percent_error>1.0;"""
     
     over_one_percent_error_days_query = execute_query(query_3)
     
