@@ -58,10 +58,10 @@ def most_popular_authors():
 # Problem 3: On which days did more than 1% of requests lead to errors?
 def over_one_percent_error_days():
     query_3 = """SELECT errors.days,
-                 ROUND(((errors.errors/total.total) * 100) :: DECIMAL, 2)::TEXT
+                 ROUND(((errors.errors/total.total) * 100))
                  as percentage
                  FROM errors, total
-                 WHERE total.day = error.day
+                 WHERE total.day = errors.day
                  AND (((errors.errors/total.total) * 100) > 1.0)
                  ORDER BY errors.day DESC;"""
     
