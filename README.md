@@ -52,6 +52,31 @@ If you cannot use the psql line in vagrant:
   * $ export LC_ALL=en_US.UTF-8
   * $ sudo locale-gen en_US.UTF-8
   * $ sudo dpkg-reconfigure locales
+  
+  # request_total view
+  CREATE VIEW request_total AS
+  SELECT count(*) AS COUNT,
+         date(TIME) AS date
+  FROM log
+  GROUP BY date
+  ORDER BY COUNT DESC;
+  
+  # request_error view
+  CREATE VIEW request_error AS
+  SELECT count(*) AS COUNT,
+         date(TIME) AS date
+  FROM log
+  WHERE status!='200 OK'
+  GROUP BY date
+  ORDER BY COUNT DESC;
+  
+  # percent_error view
+  CREATE VIEW percent_error AS
+  SELECT request_total.date,
+         round((100.0*request_error.count)/request_total.count,2) AS percent_error
+  FROM request_error,
+       request_total,
+  WHERE request_error.date=request_total.date;
 
 
 # request_total view
