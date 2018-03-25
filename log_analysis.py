@@ -65,7 +65,3 @@ if __name__ == '__main__':
     top_three_articles()
     most_popular_authors()
     over_one_percent_error_days()
-
-    
-
-
