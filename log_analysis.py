@@ -1,11 +1,11 @@
 import psycopg2
+#!/usr/bin/env python
 
 # Log Analysis Project #3
 # Udacity Full Stack Nanodegree
 
 # Store global database name
 DBNAME = 'news'
-
 
 def execute_query(query):
     try:
@@ -15,10 +15,8 @@ def execute_query(query):
         results = c.fetchall()
         db.close()
         return results
-    except BaseException:
-        print("Unable to connect to the database.  Please try again.")
-    except TypeError:
-        print('Type error too!')
+    except:
+        print("<error message>")
 # Problem 1: What are the most popular three articles of all time?
 
 
