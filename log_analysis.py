@@ -1,11 +1,12 @@
 import psycopg2
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 # Log Analysis Project #3
 # Udacity Full Stack Nanodegree
 
 # Store global database name
 DBNAME = 'news'
+
 
 def execute_query(query):
     try:
